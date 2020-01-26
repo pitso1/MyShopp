@@ -4,29 +4,26 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MyShop.Core.Models;
-using MyShop.Core.Models.ViewModels;
 using MyShop.DataAccess.InMemory;
 
 namespace MyShop.WebUI.Controllers
 {
-    public class ProductManagerController : Controller
+    public class ProductCategoryManagerController : Controller
     {
         //Product instance repository
-        ProductRepository context;
-        ProductCategoryRepository productCategories;
+        ProductCategoryRepository context;
 
         //Constractor 
-        public ProductManagerController()
+        public ProductCategoryManagerController()
         {
-            context = new ProductRepository();
-            productCategories = new ProductCategoryRepository();
+            context = new ProductCategoryRepository();
         }
 
         // Return a list of products
         public ActionResult Index()
         {
-            List<Product> products = context.Collection().ToList();
-            return View(products);
+            List<ProductCategory> productCategories = context.Collection().ToList();
+            return View(productCategories);
         }
 
 
@@ -35,23 +32,21 @@ namespace MyShop.WebUI.Controllers
         //Product capture form
         public ActionResult Create()
         {
-            ProductManagerViewModel viewModel = new ProductManagerViewModel();
-            viewModel.product = new Product();
-            viewModel.ProductCategories = productCategories.Collection();
-            return View(viewModel);
+            ProductCategory productCategory = new ProductCategory();
+            return View(productCategory);
         }
 
         //Action to add product to the repository
         [HttpPost]
-        public ActionResult Create(Product product)
+        public ActionResult Create(ProductCategory productCategory)
         {
             if (!ModelState.IsValid)
             {
-                return View(product);
+                return View(productCategory);
             }
             else
             {
-                context.Insert(product);
+                context.Insert(productCategory);
                 context.Commit();
                 return RedirectToAction("Index");
             }
@@ -62,25 +57,22 @@ namespace MyShop.WebUI.Controllers
         //Action to pull a record to be updated
         public ActionResult Edit(string Id)
         {
-            Product product = context.Find(Id);
-            if(product == null)
+            ProductCategory productCategory = context.Find(Id);
+            if (productCategory == null)
             {
                 return HttpNotFound();
             }
             else
             {
-                ProductManagerViewModel viewModel = new ProductManagerViewModel();
-                viewModel.product = product;
-                viewModel.ProductCategories = productCategories.Collection();
-                return View(viewModel);
-            }                  
+                return View(productCategory);
+            }
         }
         //Action to actually update product
         [HttpPost]
-        public ActionResult Edit(Product product,string Id)
+        public ActionResult Edit(ProductCategory productCategory, string Id)
         {
-            Product productToEdit = context.Find(Id);
-            if (productToEdit == null)
+            ProductCategory productCategoryToEdit = context.Find(Id);
+            if (productCategoryToEdit == null)
             {
                 return HttpNotFound();
             }
@@ -88,14 +80,10 @@ namespace MyShop.WebUI.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    return View(product);
+                    return View(productCategory);
                 }
-                productToEdit.Category = product.Category;
-                productToEdit.Description = product.Description;
-                productToEdit.Image = product.Image;
-                productToEdit.Name = product.Name;
-                productToEdit.Price = product.Price;
-
+                productCategoryToEdit.Category = productCategory.Category;
+         
                 context.Commit();
                 return RedirectToAction("Index");
             }
@@ -106,14 +94,14 @@ namespace MyShop.WebUI.Controllers
         //Action to pull and display the product to be deleted 
         public ActionResult Delete(string Id)
         {
-            Product productToDelete = context.Find(Id);
-            if (productToDelete == null)
+            ProductCategory productCategoryToDelete = context.Find(Id);
+            if (productCategoryToDelete == null)
             {
                 return HttpNotFound();
             }
             else
             {
-                return View(productToDelete);
+                return View(productCategoryToDelete);
             }
 
         }
@@ -123,15 +111,15 @@ namespace MyShop.WebUI.Controllers
         [ActionName("Delete")]
         public ActionResult ConfirmDelete(string Id)
         {
-            Product productToDelete = context.Find(Id);
-            if (productToDelete == null)
+            ProductCategory productCategorytToDelete = context.Find(Id);
+            if (productCategorytToDelete == null)
             {
                 return HttpNotFound();
             }
             else
             {
                 context.Delete(Id);
-                context.Commit();  
+                context.Commit();
                 return RedirectToAction("Index");
             }
         }
