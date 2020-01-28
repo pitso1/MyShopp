@@ -5,13 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Caching;
 using MyShop.Core.Models;
-
+using MyShop.Core.Contracts;
 
 namespace MyShop.DataAccess.InMemory
 {
-    public class InMemoryRepository<T> where T : BaseEntity
+    public class InMemoryRepository<T> : IRepository<T> where T : BaseEntity
     {
         ObjectCache cache = MemoryCache.Default;
+
         List<T> items;
         string className;
 
@@ -31,6 +32,8 @@ namespace MyShop.DataAccess.InMemory
         {
             cache[className] = items;
         }
+
+       
 
         public void Insert(T t)
         {
