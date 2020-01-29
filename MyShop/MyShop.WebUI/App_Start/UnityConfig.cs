@@ -29,14 +29,14 @@ namespace MyShop.WebUI
 
         /// <summary>
         /// Registers the type mappings with the Unity container.
-        /// </summary>
+        /// </summary>    
         /// <param name="container">The unity container to configure.</param>
         /// <remarks>
         /// There is no need to register concrete types such as controllers or
         /// API controllers (unless you want to change the defaults), as Unity
         /// allows resolving a concrete type even if it was not previously
         /// registered.
-        /// </remarks>
+        /// </remarks>  
         public static void RegisterTypes(IUnityContainer container)
         {
             // NOTE: To load from web.config uncomment the line below.
