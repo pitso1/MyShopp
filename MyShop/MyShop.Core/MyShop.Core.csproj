@@ -46,6 +46,7 @@
     <Compile Include="Models\BaseEntity.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductCategory.cs" />
+    <Compile Include="Models\ViewModels\ProductListViewModel.cs" />
     <Compile Include="Models\ViewModels\ProductManagerViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
